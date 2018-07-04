@@ -1,0 +1,162 @@
+v7.0.1(2018.07.02)
+1.76xx regression test版本，基于GWN7610版本1.0.7.3,GWN7600/LR版本1.0.7.3,测试用例910个。
+2.根据76xx FP6版本界面改动，将FP5版本调试成适配FP6版本的case.对应的模块有Access point,SSID,
+Captive portal,client access,Clients,Client Time policy,Debug,Failover,Maintenance,
+Navbar,Overview,Setupwizard
+
+v6.0.3(2018.04.27)
+1.76xx regression test版本，基于GWN7610版本1.0.6.33,GWN7600/LR版本1.0.6.33,测试用例918个。
+2.添加Bandwidth Rules功能。
+3.优化了部分无线网卡和有线网卡同时出现ip的情况。
+4.根据ap界面的改变优化删除ssid等方法。
+5.添加每个用例集可以逐个测试并发送邮件的功能。
+
+v6.0.2(2018.03.28)
+1.76xx regression test版本，基于GWN7610版本1.0.6.27,GWN7600/LR版本1.0.6.27,测试用例835个。
+2.添加wirless client limit,SSID Band两个功能
+3.增加了循环添加SSID的方法
+
+v6.0.1(2018.03.02)
+1.76xx regression test版本，基于GWN7610版本1.0.6.23,GWN7600/LR版本1.0.6.24,测试用例775个。
+2.根据GWN7600/LR修改对应的测试用例--既适用于GWN7610,又适用于GWN7600/LR。
+3.解决测试portal时网卡接换带来的dns无法解析的问题。
+4.ssh模块中加入进入隐藏模式,并输入对应key，输入国家代码的方法。
+
+
+v6.0.0(2018.02.22)
+1.7610 regression test版本，基于GWN7610版本1.0.6.23,测试用例775个。
+2.添加ssid功能。
+3.将网络组和额外ssid的用例集隐藏。
+4.优化了部分方法及增加debug信息，方便查找问题原因。
+
+
+v5.2.1(2018.01.22)
+1.76xx regression test版本，基于GWN7610版本1.0.5.12,测试用例1089个。
+2.添加captive portal功能。
+3.将failover功能单独作为一个用例集。
+4.更新apply和pair_ap,edit_ap,check_ap,unpair_ap的方法。
+5.data.py中加入新建excel，追加写入excel的方法：create_excel,add_excel_row,add_excel_content，方便以后测试脚本调用，生成excel测试结果。
+
+
+v5.2.0(2017.12.21)
+1.76xx regression test版本，基于GWN7610版本1.0.5.11，GWN7600/GWN7600LR版本1.0.5.4,测试用例957个。
+2.把AP dhcp server从networkgroup的用例集拿出来，单独作为一个用例集。
+3.由于GWN7000版本1.0.5.9的networkgroup中新建网络组时必须要选择流量转发的端口，所以根据该版本更新业务层的对应的函数。
+4.添加client time policy功能(部分)。
+5.由于测试中出现配置无法保持的问题，先去掉firefox专用的profile，待以后再考虑添加。
+6.修改publicControl中弹出的提示窗口(notick_ok)的定位方法。
+7.由于GWN7610新固件的client页面和upgrade页面又有更新，故根据变化更新了控制层的元素定位。
+
+
+
+v5.1.1(2017.12.6)
+1.76xx regression test版本，基于版本1.0.5.6，测试用例906个。
+2.补全Clients Access功能(全部)。
+3.合并GWN三款ap产品的自动化测试程序成一套，方便测试执行：
+1).由于三款产品的空间流以及linkspeed等参数的不同，access points用例集分成3份不同的文件，测试前选择好对应的产品型号后，自动挑出对应的用例集来进行测试。
+2).由于clientaccess中三款产品的不同list添加相同的mac的策略不同，用例集分成2分不同的文件，同样根据选择好的产品型号跳出对应的用例集来进系测试。
+4.继续优化接入点页面中，根据ap的mac地址来进行对应的选择，编辑，以及unpair:
+方法：
+1).首先通过xpath方式来查找页面上是否有确定的ap的mac。
+2).如果有，找出该mac地址所在页面的行数，找到该行的编辑按钮。
+3).如果没有，等待80s后,再进入查找该mac地址所在页面的行数，找到该行的编辑按钮。（避免修改ap配置后，可能会出现页面上短时间内没有ap显示的情况）
+4).然后判断该ap的编辑按钮是否可以点击（显示不为灰色），来判断ap是否可用。
+5).如果ap不可用（修改完ap配置后，ap还是离线状态，编辑按钮就是灰色的），那么等待60s后再次检查，循环检查3次。
+6).如果ap可用，那么进行相应的操作：选择，编辑，以及unpair后，跳出循环。
+7).如果3次循环检查后，ap的编辑按钮依然为灰色，那么报异常error。
+5.修改data.py中获取ap和mac的方法，使其更方便输入数据，方便测试执行。
+
+
+v5.1.0(2017.11.17)
+1.7610 regression test版本，基于版本1.0.5.2，测试用例845个(50.5小时,不包含countrycode和timezone用例则需41.5小时。countrycode和timezone建议单独拿出来运行，每次回归测试时也不需要运行)。
+2.修改生成测试报告的第三方模块HTMLTestRunner的属性，添加GWN_Name,Firmware,Tester,Test Bed,Automation Test Version属性，成为GWN专用模块。
+3.配置了一个firefox测试专用的profile作为静态资源缓存，测试时调用该profile，使selenium调用firefox时更快，提高测试执行速度(下载地址：http://192.168.80.5/tmp/GWNTest_profile_for_firefox38.tgz，下载后需解压)。
+4.优化pair元素的定位方法。
+5.优化第一次修改密码后点击保存的等待时间，使用智能等待。
+6.优化关闭设置向导窗口的等待时间，使用智能等待。
+7.优化读取产品PN值的方法，来判断产品是world版还是USA版：加入所有GWN产品型号的判断，使该方法能够让GWN产品通用，方便以后移植。
+8.优化修改激活空间流的方法：加入所有GWN产品型号的判断，使该方法能够让GWN产品通用，方便以后移植。
+9.添加无线加密802.1x功能。
+10.补全option升降级的所有case。
+11.添加Exact Radio Power Configuration功能。
+12.添加Failover Master功能。
+13.添加Fallback IP功能。
+14.添加AP DHCP server功能。
+15.添加Clients Access功能(部分)。
+16.根据固件1.0.5.x,修改client页面部分定位元素。
+17.根据固件1.0.5.x,修改data.xlsx中需要翻页时用到的元素字符串。
+18.把countrycode和timezone拿出来单独作为一个用例集，方便测试时进行选择测试,可进行单独测试，也可和其他用例集合起来测试。
+19.当无线连接ap失败时加了一个登录ap后台检查ap无线接口是否存在的动作。
+20.优化使用iperf3打流时出现的异常处理方法,确保iperf3能够正常运行。
+21.修改data.py中获取ap无线ssid的方法，使其带有ap的mac地址，避免测试时ssid相同导致的测试失败。
+
+
+v4.5(2017.9.26)
+1.7610 regression test版本，基于版本1.0.4.20，测试用例658个。
+2.优化等待时间,web页面的等待时间，AP升降级，重启和复位的等待时间全部改为智能等待时间。（提高的效率：以前658个用例需要34小时，现在只要25小时）
+3.测试开始前的向导中添加按钮直接打开data.xlsx方便修改数据。
+4.解决bug89871,调整固件升降级取值方式，现在从data.xlsx中取值，可以设置任何服务器，不再固定设置测试PC的服务器。
+5.去掉检测互联网中有固件才开始测试的功能（和第4条功能冲突，所以去掉。后面有需求再开放）。
+6.mail sender固定为gwn-automation@grandstream.cn，测试时不需要去输入;mail receiver设定几个常用的默认接收人。
+7.把常需要修改的数据全部放到data.xlsx中的basic.conf表中，方便测试时修改相关对应的数据。
+8.修改测试开始前AP的web界面的登录方法，使AP在出厂配置或admin密码为GWN@autotest123下都能开始测试。
+9.发邮件时如果解析不了邮件服务器，则重启router后再次检查，循环10次。
+10.把需要翻页的几个元素属性放在data.xlsx上，以后如果页面改变，方便修改。
+11.添加国家代码的测试用例,由于测试一次国家代码的功能需要超过6小时，并且并不是每个版本都需要测试国家代码，为了提高测试效率，提供是否需要测试该功能的选择项。
+12.修复client连接ap后，无法在overview和accesspoints页面显示的问题。
+
+
+v4.3
+1.7610 regression test FP1阶段测试用例，基于版本1.0.4.15，测试用例665个。
+2.根据固件版本1.0.4.12调整了登录AP web页面的输入密码的方法。
+3.修改了选择wpa加密类型的方法。
+
+
+
+v4.2
+1.7610 regression test FP1阶段测试用例，基于版本1.0.4.9，测试用例665个。
+2.每个testcase都添加了testlink中对应的ID号。
+3.修改access points中改变AP频率的实现方法，防止以后页面变化也不影响改变AP频率。
+4.修改networkgroup中改变无线加密方式的实现方法，防止以后页面变化也不影响改变无线加密。
+5.在每个用例运行前加入当前系统时间，以便执行产生core file时方便来查找是哪个用例执行出core file了。
+6.testcase_navbar，用例034,多增加一个期望结果来验证用例是否通过。
+7.testcase_overview，增加8个用例，用来验证master ap,slave ap,ssid,client的上传下载流量的用例。
+8.testcase_accesspoint，用例003，增加一个web页面的期望结果来验证用例。
+9.testcase_accesspoint，用例026，027,029，增加一个无线网卡是否能够连接上ap的期望结果来验证用例。
+10.testcase_accesspoint，增加用例071，测试master ap重启后配置检查的用例。
+11.testcase_accesspoint，用例072，增加测试slave ap重启后配置检查的期望结果来验证用例。
+12.testcase_networkgroup，用例011，增加slave ap的配置检查的期望结果来验证用例。
+13.testcase_networkgroup，用例020，021,022，增加无线网卡连接slave ap的是否成功的期望结果来验证用例。
+14.testcase_networkgroup，用例042-085，把无线加密分成2.4G和5G模式分别测试。
+15.testcase_networkgroup，用例116，117,isolation-internet，增加两个期望结果来验证用例是否通过。
+16.testcase_networkgroup，增加用例197,测试slave ap加入group后检查slave ap的网络接口的用例。
+17.testcase_networkgroup，增加用例203,测试slave ap重启不影响slave ap的group的配置。
+18.testcase_networkgroup，testcase_additionalssid,修改测试RSSI功能时由每2秒检查一次无线状态改为每0.5秒检查一次。
+19.testcase_additionalssid,用例027-070,把无线加密分成2.4G和5G模式分别测试。
+20.testcase_debug,根据建议，用例012,把ipv6 ping外网改为ping上级7000LAN口的ipv6的地址来测试该用例。
+21.testcase_maintenance,增加用例059,测试92个时区的准确性。
+
+
+
+
+v4.1
+1.7610 regression test第二阶段版本，基于版本1.0.4.6，测试用例约609个。
+2.增加判断测试AP是USA还是WORLD产品，来确认设置向导是否有国家代码设置页面。
+3.增加无线网卡扫描和连接AP的结果判断，如果连不上，就连续执行三次;如果能连上，就退出。保证连接的可靠性。
+4.增加pexpect的timeout和EOF的预期参数，使pexpect交互函数能够正常执行。
+5.增加各个测试用例集的syslog和com口log到服务器上。
+6.如果测试过程中出现core file，则也将core文件放到服务器上。
+7.修改mac地址过滤的用例，并增加客户端访问的模块控制层和业务逻辑层，以便mac地址过滤的黑白名单用例能够顺利执行。
+8.在测试报告中加入自动化测试程序的版本。
+
+
+
+
+v1.0
+1.7610 regression test第一阶段版本，基于版本1.0.3.19，测试用例约208个。
+2.实现不停侦测互联网上是否有新固件，如果有，才下载新固件开始测试。
+3.实现所选用例集能够自动循环执行的功能，并作为可选项。
+4.实现把用例按照菜单分成不同的用例集，并可以单独选择个别用例集执行。
+5.实现执行完成后自动生成测试报告，并自动发送报告的功能。
+6.执行前的准备：①在执行测试的PC上需要安装http,https,tftp的服务（具体服务器文件路径见执行前的提示框）；②需要在./PycharmProjects/GWN7610_v1.0/data/data.xlsx中修改对应的设备信息
+
